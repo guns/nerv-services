@@ -1,0 +1,2 @@
+# sync + reboot/poweroff (0x10 | 0x80)
+SYSRQ=144

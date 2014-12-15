@@ -1,0 +1,11 @@
+[Unit]
+Description=Load VirtualBox drivers
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/modprobe -a vboxdrv vboxnetadp vboxnetflt
+ExecStop=/usr/bin/rmmod vboxnetflt vboxnetadp vboxdrv
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

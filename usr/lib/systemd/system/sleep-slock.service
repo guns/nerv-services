@@ -1,0 +1,13 @@
+[Unit]
+Description=Screen lock on sleep
+Before=sleep.target
+Requires=restrict-sysrq.service
+
+[Service]
+Type=simple
+User=guns
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/slock
+
+[Install]
+WantedBy=sleep.target
