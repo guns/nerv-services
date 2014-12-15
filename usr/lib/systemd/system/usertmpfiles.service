@@ -1,0 +1,9 @@
+[Unit]
+Description=Move user files to temporary directories
+
+[Service]
+Type=oneshot
+ExecStart=/opt/haus/bin/usertmpfiles
+
+[Install]
+WantedBy=multi-user.target
