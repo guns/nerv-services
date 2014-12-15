@@ -1,6 +1,7 @@
 [Unit]
 Description=Add an extra loopback address for a DNS resolver
 Before=network.target
+StopWhenUnneeded=yes
 
 [Service]
 Type=oneshot
