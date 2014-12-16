@@ -9,9 +9,10 @@ license=('MIT')
 groups=('nerv')
 backup=('etc/usertmpfiles.yml'
         'etc/conf.d/restrict-sysrq')
-depends=('iproute2'  # For `ip`
-         'procps-ng' # For `pkill`
-         'ruby'      # For `usertmpfiles`
+depends=('iproute2'     # For `ip`
+         'procps-ng'    # For `pkill`
+         'ruby'         # For `usertmpfiles`
+         'slock-nerv'   # For `slock`
          )
 
 pkgver() {

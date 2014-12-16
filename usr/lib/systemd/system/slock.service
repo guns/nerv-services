@@ -1,6 +1,5 @@
 [Unit]
-Description=Screen lock on sleep
-Before=sleep.target
+Description=Screen lock
 Requires=restrict-sysrq.service
 
 [Service]
@@ -10,4 +9,4 @@ EnvironmentFile=/etc/conf.d/slock
 ExecStart=/usr/bin/slock
 
 [Install]
-WantedBy=sleep.target
+WantedBy=multi-user.target
