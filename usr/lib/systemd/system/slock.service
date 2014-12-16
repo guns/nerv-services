@@ -4,9 +4,8 @@ Requires=restrict-sysrq.service
 
 [Service]
 Type=simple
-User=guns
 EnvironmentFile=/etc/conf.d/slock
-ExecStart=/usr/bin/slock
+ExecStart=/bin/sh -c 'exec sudo -u "${USER}" /usr/bin/env DISPLAY="${DISPLAY}" /usr/bin/slock'
 
 [Install]
 WantedBy=multi-user.target

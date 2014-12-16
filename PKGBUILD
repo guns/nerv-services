@@ -13,6 +13,7 @@ depends=('iproute2'     # For `ip`
          'procps-ng'    # For `pkill`
          'ruby'         # For `usertmpfiles`
          'slock-nerv'   # For `slock`
+         'sudo'         # For `slock` as a configurable user
          )
 
 pkgver() {
