@@ -4,6 +4,9 @@ Description=Move user files to temporary directories
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/usertmpfiles
+# Run again on unload to catch any new files
+ExecStop=/usr/bin/usertmpfiles
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
