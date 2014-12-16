@@ -26,6 +26,11 @@ class Usertmpfiles
   def parser
     @parser ||= OptionParser.new nil, 24 do |opt|
       opt.banner = <<-BANNER.gsub /^ +/, ''
+        Move user files to a temporary directory.
+
+        The --tmpdir and --users options can also be specified under the
+        tmpdir: and users: entries in the configuration file.
+
         Usage: #{File.basename __FILE__} [options]
 
         Options:
@@ -39,7 +44,7 @@ class Usertmpfiles
         options.config_file = File.expand_path arg
       end
 
-      opt.on '-u', '--users A,B,C', Array, 'Can also be set in config file' do |arg|
+      opt.on '-u', '--users A,B,C', Array do |arg|
         options.users = Set.new arg
       end
 
