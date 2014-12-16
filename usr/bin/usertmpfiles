@@ -14,11 +14,12 @@ require 'yaml'
 require 'pathname'
 
 class Usertmpfiles
+  DEFAULT_TMPDIR = 'tmp'
+
   attr_reader :options
 
   def initialize opts = {}
     @options = OpenStruct.new
-    options.dir = 'tmp'
     options.config_file = '/etc/usertmpfiles.yml'
   end
 
@@ -30,8 +31,8 @@ class Usertmpfiles
         Options:
       BANNER
 
-      opt.on '-d', '--dir PATH', 'tmpdir path, relative to HOME [DEFAULT: %s]' % options.dir do |arg|
-        options.dir = arg
+      opt.on '-d', '--tmpdir PATH', 'tmpdir path, relative to HOME [DEFAULT: %s]' % DEFAULT_TMPDIR do |arg|
+        options.tmpdir = arg
       end
 
       opt.on '-f', '--config-file PATH', '[DEFAULT: %s]' % options.config_file do |arg|
@@ -94,7 +95,7 @@ class Usertmpfiles
   end
 
   def tmpdir home
-    File.join home, options.dir
+    File.join home, options.tmpdir || config['tmpdir'] || DEFAULT_TMPDIR
   end
 
   def fopts
