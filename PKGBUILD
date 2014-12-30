@@ -9,15 +9,15 @@ license=('MIT')
 groups=('nerv')
 backup=('etc/usertmpfiles.yml'
         'etc/conf.d/restrict-sysrq')
-depends=('iproute2'     # For `ip`
-         'procps-ng'    # For `pkill`
-         'ruby'         # For `usertmpfiles`
-         'slock-nerv'   # For `slock`
-         'sudo'         # For `slock` as a configurable user
+depends=('iproute2'  # For `ip` to add 127.0.0.53
+         'procps-ng' # For `pkill`
+         'ruby'      # For `usertmpfiles`
          )
+optdepends=('slock-nerv: For screen lock support'
+            'sudo: For `slock` as a configurable user')
 
 pkgver() {
-    printf %s.%s "$(git rev-parse --abbrev-ref HEAD)" "$(git rev-list HEAD --count)"
+	printf %s.%s "$(git rev-parse --abbrev-ref HEAD)" "$(git rev-list HEAD --count)"
 }
 
 package() {
@@ -26,3 +26,5 @@ package() {
 	mkdir -p "$pkgdir"
 	cp -R etc usr "$pkgdir"
 }
+
+# vim:noet:ts=8:sts=8:sw=8
