@@ -1,0 +1,10 @@
+[Unit]
+Description=Hourly TRIM of mounted filesystems on SSDs
+
+[Timer]
+OnCalendar=hourly
+Persistent=false
+Unit=fstrim.service
+
+[Install]
+WantedBy=multi-user.target
