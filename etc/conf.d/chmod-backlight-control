@@ -1,0 +1,3 @@
+USER=root
+GROUP=power
+MODE=0664
