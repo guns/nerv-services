@@ -7,8 +7,10 @@ arch=('any')
 url="https://github.com/guns/nerv-services"
 license=('MIT')
 groups=('nerv')
-backup=('etc/usertmpfiles.yml'
-        'etc/conf.d/restrict-sysrq')
+backup=('etc/conf.d/chmod-backlight-control'
+        'etc/conf.d/restrict-sysrq'
+        'etc/conf.d/slock'
+        'etc/usertmpfiles.yml')
 depends=('iproute2'  # For `ip` to add 127.0.0.53
          'procps-ng' # For `pkill`
          'ruby'      # For `usertmpfiles`
