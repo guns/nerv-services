@@ -4,7 +4,7 @@ Before=sleep.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c '/usr/bin/pkill -x -HUP gpg-agent; :'
+ExecStart=-/usr/bin/pkill -x -HUP gpg-agent
 
 [Install]
 WantedBy=sleep.target
