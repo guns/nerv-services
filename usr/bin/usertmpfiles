@@ -76,13 +76,18 @@ class Usertmpfiles
 
   def tmpfiles home
     Hash[config.select { |(k, _)| k == 'directory' || k == 'file' }.map do |type, files|
-      fs = files.map do |f|
-        if f =~ /\Aglob:(.*)/
-          Dir.glob(tilde_expand_path $1, home).select { |f| [type, 'link'].include? File.ftype(f) }
+      fs = files.flat_map do |f|
+        if f =~ /\Aglob:(.+)/
+          glob, pat = $1.split ':', 2
+          regex = Regexp.compile pat if pat
+          xs = Dir.glob(tilde_expand_path glob, home)
+          xs.select! { |f| f =~ regex } if regex
+          xs.select! { |f| [type, 'link'].include? File.ftype(f) }
+          xs
         else
           tilde_expand_path f, home
         end
-      end.flatten
+      end
       [type, Set.new(fs)]
     end]
   end
