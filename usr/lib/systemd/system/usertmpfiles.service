@@ -6,6 +6,7 @@ Type=oneshot
 ExecStart=/usr/bin/usertmpfiles
 # Run again on unload to catch any new files
 ExecStop=/usr/bin/usertmpfiles
+ExecStop=/usr/bin/usertmpfiles --remove-links
 RemainAfterExit=yes
 
 [Install]

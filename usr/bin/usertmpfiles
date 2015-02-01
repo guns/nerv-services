@@ -17,6 +17,7 @@ class Usertmpfiles
   DEFAULTS = {
     :tmpdir => 'tmp',
     :config_file => '/etc/usertmpfiles.yml',
+    :remove_links => false,
     :users => nil,
     :list => false,
     :noop => false,
@@ -46,6 +47,10 @@ class Usertmpfiles
 
       opt.on '-f', '--config-file PATH', '[DEFAULT: %s]' % DEFAULTS[:config_file] do |arg|
         @config_file = File.expand_path arg
+      end
+
+      opt.on '-r', '--remove-links', 'Remove symlinks to tmpdir' do
+        @remove_links = true
       end
 
       opt.on '-u', '--users A,B,C', Array do |arg|
@@ -112,12 +117,20 @@ class Usertmpfiles
     File.join home, @tmpdir || config['tmpdir'] || DEFAULTS[:tmpdir]
   end
 
+  def tmpsrc home, old_src
+    File.expand_path File.join(tmpdir(home), old_src.sub(%r{\A#{Regexp.escape home}/}, ''))
+  end
+
   def fopts
     { :verbose => !!@verbose, :noop => !!@noop }
   end
 
   def relative_path src, dst
     Pathname.new(src).relative_path_from(Pathname.new File.dirname(dst)).to_s
+  end
+
+  def readlink dst
+    File.expand_path File.readlink(dst), File.dirname(dst)
   end
 
   def move_tmpfiles home
@@ -127,9 +140,9 @@ class Usertmpfiles
       tmpfiles(home).each do |type, fs|
         fs.each do |dst|
           dst = File.expand_path dst
-          src = File.expand_path File.join(tmpdir(home), dst.sub(%r{\A#{Regexp.escape home}/}, ''))
+          src = tmpsrc home, dst
 
-          next if File.symlink? dst and File.expand_path(File.readlink(dst), File.dirname(dst)) == src and File.exists? src
+          next if File.symlink? dst and readlink(dst) == src and File.exists? src
 
           FileUtils.mkdir_p File.dirname(src), fopts
 
@@ -150,6 +163,17 @@ class Usertmpfiles
     }
   end
 
+  def unlink_tmpfiles home
+    tmpfiles(home).each do |_, fs|
+      fs.each do |dst|
+        if File.symlink? dst and readlink(dst) == tmpsrc(home, dst)
+          puts "Removing symlink #{dst}"
+          FileUtils.rm dst, fopts
+        end
+      end
+    end
+  end
+
   def as_user user
     if Process.euid.zero?
       euid, uid, gid = Process.euid, Process.uid, Process.gid
@@ -164,19 +188,31 @@ class Usertmpfiles
     Process.euid = euid if euid
   end
 
-  def setup!
+  def with_users
     users.each do |user|
       raise '%s does not exist' % tmpdir(user.dir) unless File.directory? tmpdir(user.dir)
       as_user user do
-        move_tmpfiles user.dir
+        yield user
       end
     end
+  end
+
+  def setup!
+    with_users { |user| move_tmpfiles user.dir }
+  end
+
+  def remove_links!
+    with_users { |user| unlink_tmpfiles user.dir }
   end
 
   def run arguments = []
     args = parser.parse arguments
     abort parser.help unless args.empty?
-    @list ? list_tmpfiles : setup!
+
+    if @list then list_tmpfiles
+    elsif @remove_links then remove_links!
+    else setup!
+    end
   end
 end
 
