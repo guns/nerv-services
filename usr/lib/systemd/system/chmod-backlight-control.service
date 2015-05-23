@@ -4,8 +4,8 @@ Description=Change the permissions of backlight control files
 [Service]
 Type=oneshot
 EnvironmentFile=/etc/conf.d/chmod-backlight-control
-ExecStart=/bin/sh -c 'for d in /sys/class/backlight/*; do /usr/bin/chown "${USER}:${GROUP}" "$d/brightness"; /usr/bin/chmod "${MODE}" "$d/brightness"; done'
-ExecStop=/bin/sh -c 'for d in /sys/class/backlight/*; do /usr/bin/chown root:root "$d/brightness"; /usr/bin/chmod 0644 "$d/brightness"; done'
+ExecStart=/bin/sh -c 'for f in /sys/class/backlight/*/brightness; do /usr/bin/chown "${USER}:${GROUP}" "$f"; /usr/bin/chmod "${MODE}" "$f"; done'
+ExecStop=/bin/sh  -c 'for f in /sys/class/backlight/*/brightness; do /usr/bin/chown root:root          "$f"; /usr/bin/chmod 0644      "$f"; done'
 RemainAfterExit=yes
 
 [Install]
