@@ -1,0 +1,10 @@
+[Unit]
+Description=Flush disk cache on suspend
+Before=sleep.target
+
+[Service]
+Type=oneshot
+ExecStart=-/bin/sh -c 'sync; echo 3 > /proc/sys/vm/drop_caches'
+
+[Install]
+WantedBy=sleep.target
