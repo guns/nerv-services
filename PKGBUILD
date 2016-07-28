@@ -1,6 +1,6 @@
 # Maintainer: guns <self@sungpae.com>
 pkgname=nerv-services
-pkgver=
+pkgver=0
 pkgrel=1
 pkgdesc="Common system services"
 arch=('any')
