@@ -16,7 +16,8 @@ depends=('iproute2'  # For `ip` to add 127.0.0.53
          'ruby'      # For `usertmpfiles`
          )
 optdepends=('slock-nerv: For screen lock support'
-            'sudo: For `slock` as a configurable user')
+            'sudo: For `slock` as a configurable user'
+            'powertop: For powertop --auto-tune service')
 
 pkgver() {
 	printf %s.%s "$(git rev-parse --abbrev-ref HEAD)" "$(git rev-list HEAD --count)"
