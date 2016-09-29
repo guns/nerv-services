@@ -99,8 +99,12 @@ class Usertmpfiles
 
   def users
     (@users || config['users'] || [Process.euid]).map do |u|
-      u.is_a?(Integer) ? Etc.getpwuid(u) : Etc.getpwnam(u)
-    end
+      begin
+        u.is_a?(Integer) ? Etc.getpwuid(u) : Etc.getpwnam(u)
+      rescue ArgumentError
+        warn "Ignoring unknown user #{u.inspect}"
+      end
+    end.compact
   end
 
   def list_tmpfiles
