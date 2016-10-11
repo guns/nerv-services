@@ -2,7 +2,7 @@
 
 while read -r -d $'\0' kv; do
     if [[ "${kv:0:5}" == "TERM=" ]]; then
-        echo "export $kv"
+        echo "if test \"\$TERM\" = \"vt220\"; then export $kv; fi"
     elif [[ "${kv:0:8}" == "DISPLAY=" ]]; then
         echo "export $kv"
     fi
