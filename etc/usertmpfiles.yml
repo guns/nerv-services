@@ -1,4 +1,7 @@
 users:
-# tmpdir: tmp
+  - root
+tmpdir: tmp
 directory:
+  - ~/.cache/vim
 file:
+  - glob:~/.*[._]history
