@@ -1,9 +1,0 @@
-[Unit]
-Description=Write /etc/profile.d/machine-variables.sh
-
-[Service]
-Type=oneshot
-ExecStart=/bin/sh -c '/usr/bin/machine-variables > /etc/profile.d/machine-variables.sh'
-
-[Install]
-WantedBy=multi-user.target
