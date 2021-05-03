@@ -148,20 +148,20 @@ class Usertmpfiles
 
           next if File.symlink? dst and readlink(dst) == src and File.exists? src
 
-          FileUtils.mkdir_p File.dirname(src), fopts
+          FileUtils.mkdir_p File.dirname(src), **fopts
 
           if File.exists? dst and not File.symlink? dst
-            FileUtils.rm_rf src, fopts
-            FileUtils.mv dst, src, fopts
+            FileUtils.rm_rf src, **fopts
+            FileUtils.mv dst, src, **fopts
           else
-            FileUtils.rm_rf dst, fopts
-            FileUtils.mkdir_p File.dirname(dst), fopts
-            FileUtils.send (type == 'directory' ? :mkdir_p : :touch), src, fopts
+            FileUtils.rm_rf dst, **fopts
+            FileUtils.mkdir_p File.dirname(dst), **fopts
+            FileUtils.send (type == 'directory' ? :mkdir_p : :touch), src, **fopts
           end
 
           relsrc = relative_path src, dst
           puts '%s -> %s' % [dst, relsrc]
-          FileUtils.ln_s relsrc, dst, fopts
+          FileUtils.ln_s relsrc, dst, **fopts
         end
       end
     }
@@ -172,7 +172,7 @@ class Usertmpfiles
       fs.each do |dst|
         if File.symlink? dst and readlink(dst) == tmpsrc(home, dst)
           puts "Removing symlink #{dst}"
-          FileUtils.rm dst, fopts
+          FileUtils.rm dst, **fopts
         end
       end
     end
