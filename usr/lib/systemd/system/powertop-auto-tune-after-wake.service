@@ -1,5 +1,5 @@
 [Unit]
-Description=Execute powertop --auto-tune
+Description=Execute powertop --auto-tune after wake
 # https://github.com/systemd/systemd/issues/6364
 After=systemd-suspend.service systemd-hybrid-sleep.service systemd-hibernate.service
 
