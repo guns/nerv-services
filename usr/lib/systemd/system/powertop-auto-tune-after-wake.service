@@ -1,0 +1,11 @@
+[Unit]
+Description=Execute powertop --auto-tune
+# https://github.com/systemd/systemd/issues/6364
+After=systemd-suspend.service systemd-hybrid-sleep.service systemd-hibernate.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/powertop --auto-tune
+
+[Install]
+WantedBy=sleep.target
